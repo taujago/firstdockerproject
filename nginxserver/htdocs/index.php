@@ -4,16 +4,26 @@
 $servername='mysqlmaster';
 $username='demo';
 $password='rahasia';
+$db = "demo";
 
 // mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$conn = new mysqli($servername, $username, $password);
+$mysqli = new mysqli($servername, $username, $password,$db);
 
 
-if ($conn->connect_error) {
+
+
+if ($mysqli->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-echo "Connected successfully";
+else echo "Connected successfully";
+
+
+$result = $mysqli->query("select * from test");
+echo ($result)?"echo sukses query":"gagal";
+while($row = $result->fetch_object() ) : 
+    print_r($row);
+endwhile;
 
 
 ?>
