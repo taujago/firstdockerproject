@@ -1,0 +1,64 @@
+version: "3.7"
+
+services: 
+    mysqlmaster: 
+        container_name: mysqlmaster
+        restart: always
+        image: mysql 
+        ports: 
+            - 33061:3306
+        environment: 
+            - MYSQL_ROOT_PASSWORD=rahasiamaster
+        networks: 
+            - mynet
+        volumes: 
+            - ./master-conf:/etc/mysql/conf.d
+            - ./master-init:/docker-entrypoint-initdb.d
+
+    mysqlslave:
+        restart: always
+        container_name: mysqlslave 
+        image: mysql
+        ports: 
+            - 33062:3306
+        environment: 
+            - MYSQL_ROOT_PASSWORD=rahasiaslave
+        networks: 
+            - mynet
+        depends_on: 
+            - mysqlmaster
+        volumes: 
+            - ./slave-conf:/etc/mysql/conf.d
+            - ./slave-init:/docker-entrypoint-initdb.d
+
+    nginxserv1:
+        container_name: nginxserv1
+        image: nginx 
+        ports: 
+            - 8080:80
+        volumes: 
+            - ./nginxserver/htdocs:/usr/share/nginx/html
+            - ./nginxserver/init:/docker-entrypoint.d
+            - ./nginxserver/config:/etc/nginx/conf.d
+        networks: 
+            - mynet
+    
+    nginxserv2:
+        container_name: nginxserv2
+        image: nginx
+        ports: 
+            - 8081:80
+        volumes: 
+            - ./nginxserver/htdocs:/usr/share/nginx/html
+            - ./nginxserver/init:/docker-entrypoint.d
+            - ./nginxserver/config:/etc/nginx/conf.d
+        networks:
+            - mynet
+
+
+
+
+
+networks: 
+    mynet:
+        name: mynet 
