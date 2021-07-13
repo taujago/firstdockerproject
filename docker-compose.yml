@@ -54,6 +54,20 @@ services:
             - ./nginxserver/config:/etc/nginx/conf.d
         networks:
             - mynet
+    
+    nginxlb:
+        container_name: nginxlb
+        image: nginx
+        ports:
+            - 8888:80
+        volumes: 
+            - ./nginxlb/config:/etc/nginx/conf.d
+        networks: 
+            - mynet
+        depends_on: 
+            - nginxserv2
+            - nginxserv1
+
 
 
 
