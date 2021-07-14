@@ -3,7 +3,7 @@ mysql -uroot -p${MYSQL_ROOT_PASSWORD} <<@@
 create database demo;
 use demo; 
 create table test (id int auto_increment primary key, nama varchar(200));
-insert into test (nama) values('Madafakaa');
+insert into test (nama) values('Shaun the sheep');
 -- end of prepare databae demo 
 
 -- create user for replication 
